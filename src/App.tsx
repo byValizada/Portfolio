@@ -1,13 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import LiveChat from './components/LiveChat';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import Portfolio from './pages/Portfolio';
 import About from './pages/About';
 import Career from './pages/Career';
 import CareerDetails from './pages/CareerDetails';
+import ClientPortal from './pages/ClientPortal';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
-import { Globe, MessageCircle, Mail, Hash, Phone, MapPin } from 'lucide-react';
+import { Globe, MessageCircle, Mail, Hash, Phone, MapPin, Send } from 'lucide-react';
 
 function App() {
   return (
@@ -15,7 +19,7 @@ function App() {
       <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-white">
         <Navbar />
         
-        <main className="flex-1 mt-20">
+        <main className="flex-1 mt-24">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
@@ -24,13 +28,38 @@ function App() {
             <Route path="/career" element={<Career />} />
             <Route path="/career/:id" element={<CareerDetails />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/portal" element={<ClientPortal />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
           </Routes>
         </main>
 
+        <LiveChat />
+
         {/* Global Footer */}
-        <footer className="border-t border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#020617] py-12 mt-auto">
+        <footer className="border-t border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#020617] py-16 mt-auto">
           <div className="max-w-[1400px] mx-auto px-4">
             
+            {/* Newsletter Section */}
+            <div className="bg-white dark:bg-[#0f1422] border border-slate-200 dark:border-white/5 rounded-3xl p-8 md:p-12 mb-16 flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="max-w-xl">
+                <h3 className="text-2xl font-bold mb-2">Subscribe to Our Newsletter</h3>
+                <p className="text-slate-600 dark:text-[#8e95a3] text-sm leading-relaxed">
+                  Get the latest insights, news, and exclusive updates from byValizada delivered straight to your inbox.
+                </p>
+              </div>
+              <div className="flex w-full md:w-auto gap-2">
+                <input 
+                  type="email" 
+                  placeholder="Your email address" 
+                  className="w-full md:w-72 bg-slate-50 dark:bg-[#0a0e17] border border-slate-200 dark:border-white/10 rounded-full px-6 py-3 text-sm focus:outline-none focus:border-blue-500 transition-colors"
+                />
+                <button className="bg-blue-600 hover:bg-blue-500 text-white rounded-full px-6 py-3 font-bold text-sm transition-all flex items-center gap-2">
+                  Subscribe <Send className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
             {/* Top row: Logo, Links, Socials */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-8 border-b border-slate-200 dark:border-white/5 pb-8 mb-8">
               

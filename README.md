@@ -1,69 +1,48 @@
-# byValizada Portfolio 🚀
+# byValizada | Premier Tech Agency
 
-A modern, high-performance, and fully responsive personal portfolio and corporate services website built for **byValizada**. This project is designed with premium aesthetics, smooth micro-animations, and dynamic **Dark/Light Mode** support.
+A modern, high-performance web application and agency portfolio built with React, TypeScript, and Tailwind CSS. The project features advanced UI/UX, responsive design, and enterprise-level functionalities to showcase tech solutions and data analytics expertise.
 
-## ✨ Features
+## 🚀 Key Features
 
-- **Premium UI/UX Design**: Sleek, professional interface tailored for showcasing services, portfolios, and career opportunities.
-- **Dark/Light Mode**: Full support for system-preference or user-toggled Light and Dark themes, seamlessly integrated via Tailwind CSS.
-- **Fully Responsive**: Flawless experience across desktop, tablet, and mobile devices with a smart hamburger menu and fluid grids.
-- **Dynamic Animations**: Smooth transitions and scrolling effects powered by Framer Motion.
-- **Component-Based Architecture**: Modular and easily maintainable React components.
+* **3D Interactive Graphics:** Powered by `Three.js` and `@react-three/fiber`, featuring a dynamic data analytics node network on the home page.
+* **Internationalization (i18n):** Multi-language support (English, Azerbaijani, Russian) implemented via `react-i18next`.
+* **Client Portal:** Dedicated login and dashboard interfaces for clients to track active projects, view invoices, and monitor milestones.
+* **Insights & Blog:** A clean, modern blog system to publish tech insights and company news.
+* **Custom Live Chat:** A floating, responsive live chat UI widget to simulate real-time customer support.
+* **Newsletter Subscription:** Integrated email collection UI in the global footer.
+* **SEO Optimized:** Dynamic meta tags and titles managed efficiently using `react-helmet-async`.
+* **Dark Mode:** Built-in seamless toggling between light and dark themes using Tailwind CSS and local state.
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
-- **Framework**: [React](https://react.dev/) + [Vite](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Routing**: [React Router v7](https://reactrouter.com/)
+* **Core:** React 18, TypeScript, Vite
+* **Routing:** React Router DOM
+* **Styling:** Tailwind CSS
+* **Icons:** Lucide React
+* **Animations:** Framer Motion
+* **3D Graphics:** Three.js, React Three Fiber, Drei
+* **Translations:** i18next, react-i18next
+* **SEO:** React Helmet Async
 
-## 📂 Project Structure
+## 📦 Getting Started
 
-The project has multiple fully designed pages ready for production:
-- **`/`** - Home Page
-- **`/about`** - About Us (Mission, Values, Statistics)
-- **`/services`** - Services & Industries We Serve
-- **`/portfolio`** - Portfolio with functional category filters
-- **`/career`** - Careers Hub (Job openings, filters)
-- **`/career/:id`** - Career Details (Specific job description and application form)
-- **`/contact`** - Contact Page (Message form and office info)
-
-## 🚀 Getting Started
-
-To run this project locally, follow these steps:
-
-### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YourUsername/byvalizada-portfolio.git
-   ```
-
-2. Navigate to the project directory:
-   ```bash
-   cd byvalizada-portfolio
-   ```
-
-3. Install the dependencies:
+1. Clone the repository
+2. Install dependencies:
    ```bash
    npm install
    ```
-
-4. Start the development server:
+3. Run the development server:
    ```bash
    npm run dev
    ```
+4. Build for production:
+   ```bash
+   npm run build
+   ```
 
-5. Open your browser and visit:
-   `http://localhost:5173`
+## 🌐 Live Environment
 
-## 🎨 Customization
-- **Colors & Theming**: The primary brand colors are configured within Tailwind utility classes. Switch themes dynamically using the Navbar toggle.
-- **Logo & Assets**: Update `/public/favicon.svg` and the Navbar logo component to adjust the branding.
+Run `npm run dev` and navigate to `http://localhost:5173` to interact with the full experience, including the 3D canvas and the client portal.
 
-## 📄 License
-This project is proprietary and belongs to **byValizada**. All rights reserved.
+---
+© 2026 byValizada. All rights reserved.

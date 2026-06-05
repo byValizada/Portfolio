@@ -1,9 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, Globe, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => {
     return document.documentElement.classList.contains('dark');
   });
@@ -16,12 +19,18 @@ export default function Navbar() {
     }
   }, [isDark]);
 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    setLangOpen(false);
+  };
+
   const links = [
-    { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services' },
-    { name: 'Portfolio', path: '/portfolio' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Careers', path: '/career' }
+    { name: t('nav.home'), path: '/' },
+    { name: t('nav.services'), path: '/services' },
+    { name: t('nav.portfolio'), path: '/portfolio' },
+    { name: t('nav.about'), path: '/about' },
+    { name: t('nav.career'), path: '/career' },
+    { name: t('nav.blog'), path: '/blog' }
   ];
 
   return (
@@ -43,7 +52,7 @@ export default function Navbar() {
           <div className="hidden md:flex flex-1 items-center justify-center space-x-10">
             {links.map((link) => (
               <NavLink
-                key={link.name}
+                key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
                   `text-[13px] uppercase tracking-wider font-semibold transition-colors hover:text-blue-500 ${
@@ -56,8 +65,26 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Controls: Theme & Contact */}
-          <div className="hidden md:flex items-center gap-6">
+          {/* Controls: Theme, Language & Contact */}
+          <div className="hidden md:flex items-center gap-4">
+            
+            {/* Language Switcher */}
+            <div className="relative">
+              <button 
+                onClick={() => setLangOpen(!langOpen)} 
+                className="p-2 flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-white transition-colors uppercase text-sm font-bold"
+              >
+                <Globe className="w-5 h-5" /> {i18n.language}
+              </button>
+              {langOpen && (
+                <div className="absolute top-full right-0 mt-2 w-24 bg-white dark:bg-[#0f1422] border border-slate-200 dark:border-white/10 rounded-lg shadow-xl overflow-hidden flex flex-col">
+                  <button onClick={() => changeLanguage('en')} className="px-4 py-2 text-left text-sm font-bold hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">EN</button>
+                  <button onClick={() => changeLanguage('az')} className="px-4 py-2 text-left text-sm font-bold hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">AZ</button>
+                  <button onClick={() => changeLanguage('ru')} className="px-4 py-2 text-left text-sm font-bold hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">RU</button>
+                </div>
+              )}
+            </div>
+
             <button 
               onClick={() => setIsDark(!isDark)} 
               className="p-2 text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-white transition-colors"
@@ -65,13 +92,22 @@ export default function Navbar() {
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
-            <NavLink to="/contact" className="bg-blue-600 hover:bg-blue-500 text-white text-[13px] font-bold tracking-wide uppercase px-8 py-3 rounded-full transition-all">
-              Contact Us
+            <NavLink to="/contact" className="ml-2 bg-blue-600 hover:bg-blue-500 text-white text-[13px] font-bold tracking-wide uppercase px-8 py-3 rounded-full transition-all">
+              {t('nav.contact')}
+            </NavLink>
+            <NavLink to="/portal" className="ml-2 p-2 text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-white transition-colors" title="Client Portal">
+              <User className="w-5 h-5" />
             </NavLink>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
+            <button 
+              onClick={() => changeLanguage(i18n.language === 'en' ? 'az' : 'en')}
+              className="text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-white p-2 text-xs font-bold uppercase"
+            >
+              {i18n.language}
+            </button>
             <button 
               onClick={() => setIsDark(!isDark)} 
               className="text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-white p-2"
@@ -90,16 +126,16 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-[#0f172a] border-b border-slate-200 dark:border-slate-800 absolute w-full">
+        <div className="md:hidden bg-white dark:bg-[#0f172a] border-b border-slate-200 dark:border-slate-800 absolute w-full">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {links.map((link) => (
               <NavLink
-                key={link.name}
+                key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
                   `block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive ? 'text-blue-500 bg-slate-800' : 'text-slate-700 dark:text-slate-300 hover:text-blue-400 hover:bg-slate-800/50'
+                    isActive ? 'text-blue-500 bg-slate-100 dark:bg-slate-800' : 'text-slate-700 dark:text-slate-300 hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800/50'
                   }`
                 }
               >
@@ -111,7 +147,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
               className="block px-3 py-2 text-base font-medium text-blue-500 hover:text-blue-400"
             >
-              Contact Us
+              {t('nav.contact')}
             </NavLink>
           </div>
         </div>

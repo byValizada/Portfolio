@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, Plus, X } from 'lucide-react';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import Hero3D from '../components/Hero3D';
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -14,35 +16,43 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col gap-32 py-20 pb-40">
-      {/* Hero Section */}
-      <section className="flex flex-col lg:flex-row items-center justify-between gap-12 px-4 max-w-[1400px] mx-auto w-full pt-10">
-        <div className="flex-1 space-y-8">
-          <h1 className="text-[64px] font-bold leading-[1.1] tracking-tight">
-            Transforming Data<br />
-            into <span className="bg-blue-600 text-slate-900 dark:text-white px-4 py-1 rounded-2xl inline-block mt-2">Decisions</span>
-          </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-lg max-w-lg leading-relaxed">
-            Leverage the power of machine learning and AI to unlock insights that drive business growth
-          </p>
-          <div className="pt-2">
-            <button className="bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white font-bold tracking-wide px-8 py-3.5 rounded-full transition-all text-sm shadow-[0_0_20px_rgba(37,99,235,0.3)]">
-              Start a Project
-            </button>
-          </div>
-          <div className="flex items-center gap-4 pt-6">
-            <div className="flex -space-x-3">
-              <div className="w-8 h-8 rounded-full border-2 border-[#020617] bg-slate-700"></div>
-              <div className="w-8 h-8 rounded-full border-2 border-[#020617] bg-slate-600"></div>
-              <div className="w-8 h-8 rounded-full border-2 border-[#020617] bg-slate-500 text-xs flex items-center justify-center font-bold">+10k</div>
+    <>
+      <Helmet>
+        <title>byValizada | Premier Tech Agency</title>
+        <meta name="description" content="byValizada builds cutting-edge intelligent applications and transforms how businesses operate globally." />
+      </Helmet>
+      
+      <div className="flex flex-col gap-32 py-20 pb-40">
+        
+        {/* Hero Section */}
+        <section className="flex flex-col lg:flex-row items-center justify-between gap-12 px-4 max-w-[1400px] mx-auto w-full pt-10">
+          <div className="flex-1 space-y-8">
+            <h1 className="text-[64px] font-bold leading-[1.1] tracking-tight text-slate-900 dark:text-white">
+              Transforming Data<br />
+              into <span className="bg-blue-600 text-white px-4 py-1 rounded-2xl inline-block mt-2">Decisions</span>
+            </h1>
+            <p className="text-slate-600 dark:text-slate-400 text-lg max-w-lg leading-relaxed">
+              Leverage the power of machine learning and AI to unlock insights that drive business growth
+            </p>
+            <div className="pt-2">
+              <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold tracking-wide px-8 py-3.5 rounded-full transition-all text-sm shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+                Start a Project
+              </button>
             </div>
-            <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">Over <span className="text-slate-900 dark:text-white font-bold">200+ clients</span> have trusted us</p>
+            <div className="flex items-center gap-4 pt-6">
+              <div className="flex -space-x-3">
+                <div className="w-8 h-8 rounded-full border-2 border-white dark:border-[#020617] bg-slate-300 dark:bg-slate-700"></div>
+                <div className="w-8 h-8 rounded-full border-2 border-white dark:border-[#020617] bg-slate-400 dark:bg-slate-600"></div>
+                <div className="w-8 h-8 rounded-full border-2 border-white dark:border-[#020617] bg-blue-500 text-white text-xs flex items-center justify-center font-bold">+10k</div>
+              </div>
+              <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">Over <span className="text-slate-900 dark:text-white font-bold">200+ clients</span> have trusted us</p>
+            </div>
           </div>
-        </div>
-        <div className="flex-[1.2] relative flex justify-end">
-          <img src="/hero_tech_3d.png" alt="3D Robot" className="w-[85%] object-contain" />
-        </div>
-      </section>
+          <div className="flex-[1.2] relative flex justify-end min-h-[400px]">
+            {/* 3D Interaktiv Komponent */}
+            <Hero3D />
+          </div>
+        </section>
 
       {/* Partners Logos */}
       <section className="w-full border-y border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#020617] py-10">
@@ -180,5 +190,6 @@ export default function Home() {
         </div>
       </section>
     </div>
+    </>
   );
 }
