@@ -1,4 +1,4 @@
-import { ArrowLeft, Clock, User, Calendar, Share2, Twitter, Linkedin, Facebook } from 'lucide-react';
+import { ArrowLeft, Clock, User, Calendar, Share2 } from 'lucide-react';
 import { NavLink, useParams } from 'react-router-dom';
 
 export default function BlogPost() {
@@ -40,15 +40,6 @@ export default function BlogPost() {
             {/* Social Share */}
             <div className="ml-auto flex items-center gap-2">
               <span className="mr-2"><Share2 className="w-4 h-4" /></span>
-              <button className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#0a0e17] hover:bg-blue-500 hover:text-white flex items-center justify-center transition-colors">
-                <Twitter className="w-4 h-4" />
-              </button>
-              <button className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#0a0e17] hover:bg-blue-600 hover:text-white flex items-center justify-center transition-colors">
-                <Linkedin className="w-4 h-4" />
-              </button>
-              <button className="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#0a0e17] hover:bg-blue-700 hover:text-white flex items-center justify-center transition-colors">
-                <Facebook className="w-4 h-4" />
-              </button>
             </div>
           </div>
         </header>

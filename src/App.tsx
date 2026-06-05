@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LiveChat from './components/LiveChat';
 import Home from './pages/Home';
@@ -11,7 +11,7 @@ import ClientPortal from './pages/ClientPortal';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
-import { Globe, MessageCircle, Mail, Hash, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
 
 function App() {
   return (
