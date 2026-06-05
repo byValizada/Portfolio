@@ -13,7 +13,7 @@ export const firebaseConfig = {
 // Gələcəkdə həqiqi firebase/firestore paketi quraşdırıldıqda bunu importlarla əvəz edəcəksiniz.
 export const db = {
   collection: (collectionName: string) => ({
-    add: async (data: any) => {
+    add: async (data: Record<string, unknown>) => {
       console.log(`[MOCK DB] Sended to collection "${collectionName}":`, data);
       
       // Simulate network delay

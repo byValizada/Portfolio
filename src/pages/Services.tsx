@@ -68,7 +68,7 @@ export default function Services() {
     }
   ];
 
-  const renderCard = (item: any, i: number) => (
+  const renderCard = (item: { title: string; desc: string; bullets: string[] }, i: number) => (
     <div key={i} className="bg-white dark:bg-[#0f1422] rounded-[32px] p-8 md:p-10 border border-slate-200 dark:border-white/5 hover:border-slate-300 dark:border-white/10 transition-colors flex flex-col h-full">
       <div className="w-24 h-24 mb-6 bg-slate-200 dark:bg-[#1e293b] rounded-2xl mx-auto flex items-center justify-center">
          {/* Placeholder for the 3D icons from screenshot */}

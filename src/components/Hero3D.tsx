@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Sphere, Line } from '@react-three/drei';
 import * as THREE from 'three';
@@ -7,7 +7,7 @@ function DataNodes() {
   const group = useRef<THREE.Group>(null);
   
   // Generate random nodes
-  const nodes = useMemo(() => {
+  const [nodes] = useState(() => {
     const temp = [];
     for (let i = 0; i < 40; i++) {
       temp.push(new THREE.Vector3(
@@ -17,7 +17,7 @@ function DataNodes() {
       ));
     }
     return temp;
-  }, []);
+  });
 
   // Generate lines between close nodes
   const lines = useMemo(() => {
