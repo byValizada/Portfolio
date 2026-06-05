@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import LiveChat from './components/LiveChat';
 import Home from './pages/Home';
@@ -11,27 +12,35 @@ import ClientPortal from './pages/ClientPortal';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
+import Calculator from './pages/Calculator';
+import NotFound from './pages/NotFound';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 
 function App() {
+  const location = useLocation();
+
   return (
     <>
       <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-white">
         <Navbar />
         
         <main className="flex-1 mt-24">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/career" element={<Career />} />
-            <Route path="/career/:id" element={<CareerDetails />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/portal" element={<ClientPortal />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-          </Routes>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/career" element={<Career />} />
+              <Route path="/career/:id" element={<CareerDetails />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/portal" element={<ClientPortal />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogPost />} />
+              <Route path="/calculator" element={<Calculator />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AnimatePresence>
         </main>
 
         <LiveChat />
@@ -42,21 +51,30 @@ function App() {
             
             {/* Newsletter Section */}
             <div className="bg-white dark:bg-[#0f1422] border border-slate-200 dark:border-white/5 rounded-3xl p-8 md:p-12 mb-16 flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="max-w-xl">
-                <h3 className="text-2xl font-bold mb-2">Subscribe to Our Newsletter</h3>
-                <p className="text-slate-600 dark:text-[#8e95a3] text-sm leading-relaxed">
-                  Get the latest insights, news, and exclusive updates from byValizada delivered straight to your inbox.
-                </p>
-              </div>
-              <div className="flex w-full md:w-auto gap-2">
-                <input 
-                  type="email" 
-                  placeholder="Your email address" 
-                  className="w-full md:w-72 bg-slate-50 dark:bg-[#0a0e17] border border-slate-200 dark:border-white/10 rounded-full px-6 py-3 text-sm focus:outline-none focus:border-blue-500 transition-colors"
-                />
-                <button className="bg-blue-600 hover:bg-blue-500 text-white rounded-full px-6 py-3 font-bold text-sm transition-all flex items-center gap-2">
-                  Subscribe <Send className="w-4 h-4" />
-                </button>
+              <div className="flex-[1.5]">
+                <h3 className="font-bold text-lg mb-6">Newsletter</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">Stay updated with our latest news and AI insights.</p>
+                <form 
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const form = e.target as HTMLFormElement;
+                    const input = form.elements[0] as HTMLInputElement;
+                    const btn = form.elements[1] as HTMLButtonElement;
+                    btn.disabled = true;
+                    btn.innerHTML = '...';
+                    const { db } = await import('./lib/firebase');
+                    await db.collection('subscribers').add({ email: input.value });
+                    input.value = '';
+                    btn.innerHTML = 'Done';
+                    setTimeout(() => { btn.disabled = false; btn.innerHTML = '<svg class="lucide lucide-send w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>'; }, 3000);
+                  }}
+                  className="flex gap-2"
+                >
+                  <input type="email" required placeholder="Enter your email" className="flex-1 bg-slate-100 dark:bg-[#0f1422] border border-slate-200 dark:border-white/5 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                  <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white p-2.5 rounded-full transition-colors flex items-center justify-center min-w-[40px]">
+                    <Send className="w-4 h-4" />
+                  </button>
+                </form>
               </div>
             </div>
 

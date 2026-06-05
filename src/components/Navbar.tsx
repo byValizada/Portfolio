@@ -30,7 +30,8 @@ export default function Navbar() {
     { name: t('nav.portfolio'), path: '/portfolio' },
     { name: t('nav.about'), path: '/about' },
     { name: t('nav.career'), path: '/career' },
-    { name: t('nav.blog'), path: '/blog' }
+    { name: t('nav.blog'), path: '/blog' },
+    { name: t('nav.estimator'), path: '/calculator' }
   ];
 
   return (

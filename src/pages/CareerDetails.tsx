@@ -1,4 +1,4 @@
-import { ArrowRight, PenTool, Code, Megaphone, CheckSquare } from 'lucide-react';
+import { PenTool, Code } from 'lucide-react';
 
 export default function CareerDetails() {
   const jobs = [

@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { LayoutDashboard, FileText, CheckCircle, Clock, Search, Bell, LogOut, Download } from 'lucide-react';
+import { LayoutDashboard, FileText, CheckCircle, Search, Bell, LogOut, Download } from 'lucide-react';
 
 export default function ClientPortal() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

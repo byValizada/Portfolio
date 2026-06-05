@@ -3,7 +3,12 @@ import { motion } from 'framer-motion';
 
 export default function About() {
   return (
-    <div className="flex flex-col gap-24 py-10 pb-40">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="flex flex-col gap-24 py-10 pb-40"
+    >
       
       {/* Hero Section */}
       <section className="px-4 max-w-[1400px] mx-auto w-full">
@@ -202,6 +207,6 @@ export default function About() {
         </div>
       </section>
 
-    </div>
+    </motion.div>
   );
 }

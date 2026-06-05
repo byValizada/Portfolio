@@ -1,5 +1,4 @@
-import { ArrowRight, ChevronDown, Search, PenTool, Code, Megaphone, CheckSquare } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ChevronDown, Search, PenTool, Code, Megaphone, CheckSquare } from 'lucide-react';
 
 export default function Career() {
   const jobs = [

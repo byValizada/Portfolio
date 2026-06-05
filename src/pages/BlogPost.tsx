@@ -1,11 +1,30 @@
 import { ArrowLeft, Clock, User, Calendar, Share2 } from 'lucide-react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { blogPosts } from '../data/blogData';
+import { useEffect } from 'react';
 
 export default function BlogPost() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  
+  const post = blogPosts.find(p => p.id === id);
+
+  useEffect(() => {
+    if (!post) {
+      navigate('/404');
+    }
+  }, [post, navigate]);
+
+  if (!post) return null;
 
   return (
-    <div className="max-w-[1400px] mx-auto px-4 py-10 pb-40">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="max-w-[1400px] mx-auto px-4 py-10 pb-40"
+    >
       
       {/* Back Button */}
       <NavLink to="/blog" className="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-white font-semibold text-sm mb-12 transition-colors">
@@ -17,10 +36,10 @@ export default function BlogPost() {
         {/* Header */}
         <header className="mb-12">
           <div className="bg-blue-500/10 text-blue-500 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider inline-block mb-6">
-            Artificial Intelligence
+            {post.category}
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-[1.2] mb-8">
-            The Future of AI in Enterprise Software
+            {post.title}
           </h1>
           
           <div className="flex flex-wrap items-center gap-6 text-sm text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-white/5 pb-8">
@@ -28,13 +47,13 @@ export default function BlogPost() {
               <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
                 <User className="w-5 h-5" />
               </div>
-              <span className="font-bold text-slate-900 dark:text-white">Tural Valizada</span>
+              <span className="font-bold text-slate-900 dark:text-white">{post.author}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" /> Oct 24, 2026
+              <Calendar className="w-4 h-4" /> {post.date}
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4" /> 5 min read
+              <Clock className="w-4 h-4" /> {post.readTime}
             </div>
             
             {/* Social Share */}
@@ -47,40 +66,26 @@ export default function BlogPost() {
         {/* Hero Image */}
         <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden mb-12">
           <img 
-            src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200" 
-            alt="AI Concept" 
+            src={post.image} 
+            alt={post.title} 
             className="w-full h-full object-cover"
           />
         </div>
 
         {/* Content */}
         <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-[#8e95a3] text-lg leading-relaxed">
-          <p className="lead text-xl text-slate-800 dark:text-slate-200 font-medium mb-8">
-            Artificial Intelligence is no longer just a buzzword; it's a fundamental shift in how businesses operate, scale, and deliver value to their customers.
-          </p>
-          
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-12 mb-6">The Rise of Large Language Models</h2>
-          <p className="mb-6">
-            In recent years, the capabilities of Large Language Models (LLMs) have expanded exponentially. What started as simple text completion has evolved into complex reasoning, code generation, and sophisticated semantic understanding. Enterprises are now integrating these models into their core operations, transforming everything from customer support to complex data analysis.
-          </p>
-          
-          <blockquote className="border-l-4 border-blue-500 pl-6 my-10 italic text-xl text-slate-800 dark:text-slate-300">
-            "The integration of AI into enterprise software is not about replacing human ingenuity; it's about amplifying it to unprecedented levels."
-          </blockquote>
-          
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-12 mb-6">Key Areas of Transformation</h2>
-          <ul className="list-disc pl-6 mb-8 space-y-4">
-            <li><strong>Automated Data Analysis:</strong> AI systems can now process vast amounts of unstructured data and provide actionable insights in real-time.</li>
-            <li><strong>Enhanced Customer Experience:</strong> Intelligent chatbots and personalized recommendation engines are creating more engaging user experiences.</li>
-            <li><strong>Operational Efficiency:</strong> From supply chain optimization to automated HR processes, AI is significantly reducing operational overhead.</li>
-          </ul>
-
-          <p className="mb-6">
-            As we move forward, the competitive advantage will heavily tilt towards organizations that not only adopt AI but seamlessly weave it into their organizational DNA. The journey requires careful planning, robust data infrastructure, and a clear understanding of both the capabilities and limitations of current AI technologies.
-          </p>
+          {post.content.map((paragraph, index) => {
+            if (index === 0) {
+              return <p key={index} className="lead text-xl text-slate-800 dark:text-slate-200 font-medium mb-8">{paragraph}</p>;
+            }
+            if (paragraph.length < 50 && !paragraph.includes('.')) {
+              return <h2 key={index} className="text-2xl font-bold text-slate-900 dark:text-white mt-12 mb-6">{paragraph}</h2>;
+            }
+            return <p key={index} className="mb-6">{paragraph}</p>;
+          })}
         </div>
 
       </article>
-    </div>
+    </motion.div>
   );
 }

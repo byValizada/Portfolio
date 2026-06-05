@@ -22,10 +22,20 @@ export default function Home() {
         <meta name="description" content="byValizada builds cutting-edge intelligent applications and transforms how businesses operate globally." />
       </Helmet>
       
-      <div className="flex flex-col gap-32 py-20 pb-40">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="flex flex-col gap-32 py-20 pb-40"
+      >
         
         {/* Hero Section */}
-        <section className="flex flex-col lg:flex-row items-center justify-between gap-12 px-4 max-w-[1400px] mx-auto w-full pt-10">
+        <motion.section 
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col lg:flex-row items-center justify-between gap-12 px-4 max-w-[1400px] mx-auto w-full pt-10"
+        >
           <div className="flex-1 space-y-8">
             <h1 className="text-[64px] font-bold leading-[1.1] tracking-tight text-slate-900 dark:text-white">
               Transforming Data<br />
@@ -52,10 +62,16 @@ export default function Home() {
             {/* 3D Interaktiv Komponent */}
             <Hero3D />
           </div>
-        </section>
+        </motion.section>
 
       {/* Partners Logos */}
-      <section className="w-full border-y border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#020617] py-10">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className="w-full border-y border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#020617] py-10"
+      >
         <div className="max-w-[1400px] mx-auto px-4 flex flex-wrap justify-between items-center opacity-40 grayscale gap-8">
           <span className="text-2xl font-bold">Spotify</span>
           <span className="text-2xl font-bold">zoom</span>
@@ -63,10 +79,16 @@ export default function Home() {
           <span className="text-2xl font-bold text-center leading-none">amazon</span>
           <span className="text-2xl font-bold text-center leading-none">Adobe</span>
         </div>
-      </section>
+      </motion.section>
 
       {/* Services Section */}
-      <section className="max-w-[1400px] mx-auto px-4 w-full">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="max-w-[1400px] mx-auto px-4 w-full"
+      >
         <div className="text-center mb-20">
           <h2 className="text-[32px] font-bold mb-4">Our Ultimate Set of Services for Your<br />Ideas Implementation</h2>
         </div>
@@ -77,7 +99,6 @@ export default function Home() {
             { title: "Data Engineering", desc: "Build robust data pipelines and infrastructure for AI scaleability." }
           ].map((srv, i) => (
             <div key={i} className="bg-white dark:bg-[#0f1422] rounded-[32px] p-10 text-center flex flex-col items-center border border-slate-200 dark:border-white/5 hover:border-slate-300 dark:border-white/10 transition-colors">
-              {/* Placeholder for the 3D icons in the screenshot */}
               <div className="w-32 h-32 mb-8 bg-slate-200 dark:bg-[#1e293b] rounded-2xl flex items-center justify-center">
                 <div className="text-slate-500 dark:text-slate-600 dark:text-slate-400 font-medium text-sm">3D Icon</div>
               </div>
@@ -86,10 +107,16 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* Why Choose Us */}
-      <section className="max-w-[1400px] mx-auto px-4 w-full">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="max-w-[1400px] mx-auto px-4 w-full"
+      >
         <div className="text-center mb-16">
           <h2 className="text-[32px] font-bold">Why Choose Us</h2>
         </div>
@@ -111,10 +138,16 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* Why We Started */}
-      <section className="max-w-[1400px] mx-auto px-4 w-full relative">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="max-w-[1400px] mx-auto px-4 w-full relative"
+      >
         <div className="text-center mb-16">
           <h2 className="text-[32px] font-bold">Why We Started</h2>
         </div>
@@ -149,10 +182,16 @@ export default function Home() {
             Learn More
           </button>
         </div>
-      </section>
+      </motion.section>
 
       {/* FAQ */}
-      <section className="max-w-4xl mx-auto px-4 w-full">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="max-w-4xl mx-auto px-4 w-full"
+      >
         <h2 className="text-[32px] font-bold mb-12 text-center">Frequently Asked Questions</h2>
         <div className="space-y-4">
           {faqs.map((faq, i) => {
@@ -188,8 +227,8 @@ export default function Home() {
             );
           })}
         </div>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
     </>
   );
 }

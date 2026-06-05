@@ -11,6 +11,7 @@ const resources = {
         "about": "About Us",
         "career": "Careers",
         "blog": "Blog",
+        "estimator": "Estimator",
         "contact": "Contact Us"
       }
     }
@@ -24,6 +25,7 @@ const resources = {
         "about": "Haqqımızda",
         "career": "Karyera",
         "blog": "Bloq",
+        "estimator": "Kalkulyator",
         "contact": "Əlaqə"
       }
     }
@@ -37,6 +39,7 @@ const resources = {
         "about": "О нас",
         "career": "Карьера",
         "blog": "Блог",
+        "estimator": "Калькулятор",
         "contact": "Контакты"
       }
     }

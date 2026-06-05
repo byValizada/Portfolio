@@ -1,8 +1,32 @@
 import { Mail, MapPin, Phone } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { db } from '../lib/firebase';
 
 export default function Contact() {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    // Simulate firebase add
+    await db.collection('messages').add({
+      type: 'contact_form',
+      date: new Date().toISOString()
+    });
+    setLoading(false);
+    setSuccess(true);
+    setTimeout(() => setSuccess(false), 5000);
+  };
+
   return (
-    <div className="flex flex-col gap-24 py-10 pb-40">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="flex flex-col gap-24 py-10 pb-40"
+    >
       
       {/* Hero Section */}
       <section className="px-4 max-w-[1400px] mx-auto w-full">
@@ -41,22 +65,22 @@ export default function Contact() {
           {/* Left: Form */}
           <div className="flex-[1.5] bg-white dark:bg-[#0f1422] rounded-[32px] border border-slate-200 dark:border-white/5 p-10">
             <h3 className="text-[15px] font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-8">Send A Message</h3>
-            <form className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">First Name</label>
-                  <input type="text" className="w-full bg-slate-100 dark:bg-[#0a0e17] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors" />
+                  <input type="text" required className="w-full bg-slate-100 dark:bg-[#0a0e17] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors" />
                 </div>
                 <div>
                   <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">Last Name</label>
-                  <input type="text" className="w-full bg-slate-100 dark:bg-[#0a0e17] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors" />
+                  <input type="text" required className="w-full bg-slate-100 dark:bg-[#0a0e17] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors" />
                 </div>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">Email</label>
-                  <input type="email" className="w-full bg-slate-100 dark:bg-[#0a0e17] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors" />
+                  <input type="email" required className="w-full bg-slate-100 dark:bg-[#0a0e17] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors" />
                 </div>
                 <div>
                   <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">Phone (Optional)</label>
@@ -66,12 +90,15 @@ export default function Contact() {
 
               <div>
                 <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">Message</label>
-                <textarea rows={6} className="w-full bg-slate-100 dark:bg-[#0a0e17] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors resize-none"></textarea>
+                <textarea required rows={6} className="w-full bg-slate-100 dark:bg-[#0a0e17] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 transition-colors resize-none"></textarea>
               </div>
 
-              <button type="button" className="bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white font-bold text-[13px] px-10 py-4 rounded-xl transition-all tracking-wide mt-2">
-                Send Message
-              </button>
+              <div className="flex items-center gap-4 mt-2">
+                <button disabled={loading || success} type="submit" className="bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-slate-900 dark:text-white font-bold text-[13px] px-10 py-4 rounded-xl transition-all tracking-wide flex-shrink-0">
+                  {loading ? 'Sending...' : success ? 'Sent!' : 'Send Message'}
+                </button>
+                {success && <span className="text-emerald-500 text-sm font-bold">Message received successfully!</span>}
+              </div>
             </form>
           </div>
 
@@ -141,6 +168,6 @@ export default function Contact() {
         </div>
       </section>
 
-    </div>
+    </motion.div>
   );
 }
