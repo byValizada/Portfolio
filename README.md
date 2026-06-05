@@ -1,23 +1,27 @@
 # byValizada | Premier Tech Agency
 
-A modern, high-performance web application and agency portfolio built with React, TypeScript, and Tailwind CSS. The project features advanced UI/UX, responsive design, and enterprise-level functionalities to showcase tech solutions and data analytics expertise.
+A modern, high-performance web application and agency portfolio built with React, TypeScript, and Tailwind CSS v4. The project features advanced UI/UX, responsive design, smooth scroll animations, and enterprise-level functionalities to showcase tech solutions and data analytics expertise.
+
+> **Read the full usage and deployment guide in 3 languages (AZ, EN, RU) here: [INSTRUCTIONS.md](INSTRUCTIONS.md)**
 
 ## 🚀 Key Features
 
 * **3D Interactive Graphics:** Powered by `Three.js` and `@react-three/fiber`, featuring a dynamic data analytics node network on the home page.
+* **Premium Animations:** Page transitions and scroll-triggered micro-interactions powered by `framer-motion`.
 * **Internationalization (i18n):** Multi-language support (English, Azerbaijani, Russian) implemented via `react-i18next`.
 * **Client Portal:** Dedicated login and dashboard interfaces for clients to track active projects, view invoices, and monitor milestones.
-* **Insights & Blog:** A clean, modern blog system to publish tech insights and company news.
+* **Cost Estimator & Calculator:** An interactive multi-step project cost calculator.
+* **Local CMS (Blog):** A clean, modern blog system powered by a dedicated local JSON-based CMS (`blogData.ts`).
+* **Firebase Ready:** Pre-configured mock functions for Newsletter and Contact forms, ready to be connected to Firebase.
 * **Custom Live Chat:** A floating, responsive live chat UI widget to simulate real-time customer support.
-* **Newsletter Subscription:** Integrated email collection UI in the global footer.
 * **SEO Optimized:** Dynamic meta tags and titles managed efficiently using `react-helmet-async`.
-* **Dark Mode:** Built-in seamless toggling between light and dark themes using Tailwind CSS and local state.
+* **Advanced Dark Mode:** Built-in seamless toggling between light and dark themes using Tailwind CSS v4 custom variants.
 
 ## 🛠️ Technology Stack
 
-* **Core:** React 18, TypeScript, Vite
-* **Routing:** React Router DOM
-* **Styling:** Tailwind CSS
+* **Core:** React 19, TypeScript, Vite
+* **Routing:** React Router DOM v7
+* **Styling:** Tailwind CSS v4
 * **Icons:** Lucide React
 * **Animations:** Framer Motion
 * **3D Graphics:** Three.js, React Three Fiber, Drei
