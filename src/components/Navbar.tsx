@@ -1,15 +1,26 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Menu, X, Sun, Moon, Globe, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [isDark, setIsDark] = useState(() => {
     return document.documentElement.classList.contains('dark');
   });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isDark) {
@@ -35,9 +46,18 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-slate-50 dark:bg-[#020617] border-b border-slate-200 dark:border-white/5 transition-colors">
+    <motion.nav 
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-white/80 dark:bg-[#020617]/80 backdrop-blur-lg border-b border-slate-200 dark:border-white/5 shadow-sm py-0' 
+          : 'bg-transparent border-transparent py-2'
+      }`}
+    >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
+        <div className="flex items-center justify-between h-20 md:h-24 transition-all duration-300">
           
           {/* Logo */}
           <div className="flex items-center gap-3">
@@ -49,21 +69,29 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex flex-1 items-center justify-center space-x-10">
-            {links.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `text-[13px] uppercase tracking-wider font-semibold transition-colors hover:text-blue-500 ${
-                    isActive ? 'text-blue-500' : 'text-slate-600 dark:text-slate-300'
-                  }`
-                }
-              >
-                {link.name}
-              </NavLink>
-            ))}
+          {/* Desktop Menu with Layout Animation */}
+          <div className="hidden md:flex flex-1 items-center justify-center space-x-2">
+            {links.map((link) => {
+              const isActive = location.pathname === link.path;
+              return (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  className={`relative px-4 py-2 text-[13px] uppercase tracking-widest font-bold transition-colors z-10 ${
+                    isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-active-pill"
+                      className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/20 rounded-full -z-10"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  {link.name}
+                </NavLink>
+              );
+            })}
           </div>
 
           {/* Controls: Theme, Language & Contact */}
@@ -125,34 +153,44 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white dark:bg-[#0f172a] border-b border-slate-200 dark:border-slate-800 absolute w-full">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {links.map((link) => (
+      {/* Mobile Menu with AnimatePresence */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 overflow-hidden absolute w-full shadow-2xl"
+          >
+            <div className="px-4 pt-4 pb-6 space-y-2">
+              {links.map((link) => (
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className={({ isActive }) =>
+                    `block px-4 py-3 rounded-xl text-sm font-bold tracking-wide uppercase transition-colors ${
+                      isActive 
+                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
+                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'
+                    }`
+                  }
+                >
+                  {link.name}
+                </NavLink>
+              ))}
               <NavLink
-                key={link.path}
-                to={link.path}
+                to="/contact"
                 onClick={() => setIsOpen(false)}
-                className={({ isActive }) =>
-                  `block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive ? 'text-blue-500 bg-slate-100 dark:bg-slate-800' : 'text-slate-700 dark:text-slate-300 hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800/50'
-                  }`
-                }
+                className="block px-4 py-3 mt-4 text-sm font-bold uppercase text-white bg-blue-600 hover:bg-blue-500 rounded-xl text-center shadow-lg shadow-blue-500/20"
               >
-                {link.name}
+                {t('nav.contact')}
               </NavLink>
-            ))}
-            <NavLink
-              to="/contact"
-              onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 text-base font-medium text-blue-500 hover:text-blue-400"
-            >
-              {t('nav.contact')}
-            </NavLink>
-          </div>
-        </div>
-      )}
-    </nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 }
