@@ -1,17 +1,39 @@
 import { useState } from 'react';
-import { LayoutDashboard, FileText, CheckCircle, Search, Bell, LogOut, Download } from 'lucide-react';
+import { LayoutDashboard, FileText, CheckCircle, Search, Bell, LogOut, Download, CreditCard, Loader2 } from 'lucide-react';
+import { login, logout } from '../lib/auth';
 
 export default function ClientPortal() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [payingInvoice, setPayingInvoice] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login
-    if (email && password) {
+    setLoading(true);
+    setError('');
+    try {
+      await login(email, password);
       setIsLoggedIn(true);
+    } catch (err: any) {
+      setError(err.message || 'Login failed');
     }
+    setLoading(false);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setIsLoggedIn(false);
+  };
+
+  const handlePayment = () => {
+    setPayingInvoice(true);
+    setTimeout(() => {
+      alert("Mock Stripe Checkout Started!");
+      setPayingInvoice(false);
+    }, 1500);
   };
 
   if (!isLoggedIn) {
@@ -56,11 +78,13 @@ export default function ClientPortal() {
               </label>
               <a href="#" className="text-blue-500 hover:text-blue-400 font-medium">Forgot password?</a>
             </div>
+            {error && <div className="p-3 bg-red-500/10 text-red-500 text-sm rounded-lg">{error}</div>}
             <button 
               type="submit" 
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl transition-colors mt-6 shadow-lg shadow-blue-500/20"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl transition-colors mt-6 shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2"
             >
-              Sign In
+              {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign In'}
             </button>
           </form>
         </div>
@@ -92,7 +116,7 @@ export default function ClientPortal() {
             <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-slate-50 dark:border-[#020617]"></span>
           </button>
           <button 
-            onClick={() => setIsLoggedIn(false)}
+            onClick={handleLogout}
             className="flex items-center gap-2 bg-red-500/10 text-red-500 px-4 py-2 rounded-full text-sm font-bold hover:bg-red-500/20 transition-colors"
           >
             <LogOut className="w-4 h-4" /> Logout
@@ -168,13 +192,36 @@ export default function ClientPortal() {
         {/* Sidebar */}
         <div className="space-y-8">
           
-          {/* Documents */}
+          {/* Documents & Invoices */}
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Recent Documents</h2>
-            <div className="bg-white dark:bg-[#0f1422] border border-slate-200 dark:border-white/5 rounded-2xl p-4 space-y-2">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Invoices & Documents</h2>
+            <div className="bg-white dark:bg-[#0f1422] border border-slate-200 dark:border-white/5 rounded-2xl p-4 space-y-3">
+              
+              {/* Unpaid Invoice */}
+              <div className="flex flex-col gap-3 p-4 rounded-xl border border-orange-500/30 bg-orange-500/5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-orange-500/20 text-orange-500 rounded-lg flex items-center justify-center">
+                      <FileText className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-slate-900 dark:text-white">Invoice_INV-2026-89.pdf</p>
+                      <p className="text-xs text-orange-500 font-semibold">Due: $4,500</p>
+                    </div>
+                  </div>
+                </div>
+                <button 
+                  onClick={handlePayment}
+                  disabled={payingInvoice}
+                  className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg text-sm font-bold transition-colors disabled:opacity-50"
+                >
+                  {payingInvoice ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />} 
+                  {payingInvoice ? 'Processing...' : 'Pay with Stripe'}
+                </button>
+              </div>
+
               {[
                 { name: "Q3_Project_Report.pdf", size: "2.4 MB" },
-                { name: "Invoice_INV-2026-89.pdf", size: "120 KB" },
                 { name: "API_Documentation_v2.md", size: "45 KB" }
               ].map((doc, i) => (
                 <div key={i} className="flex items-center justify-between p-3 hover:bg-slate-50 dark:hover:bg-[#0a0e17] rounded-xl transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-white/5">

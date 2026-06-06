@@ -1,7 +1,6 @@
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { db } from '../lib/firebase';
 
 export default function Contact() {
   const [loading, setLoading] = useState(false);
@@ -10,10 +9,17 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate firebase add
-    await db.collection('messages').add({
-      type: 'contact_form',
-      date: new Date().toISOString()
+    const { addToCollection } = await import('../lib/firebase');
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    
+    await addToCollection('contacts', {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      company: formData.get('company'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+      timestamp: new Date().toISOString()
     });
     setLoading(false);
     setSuccess(true);

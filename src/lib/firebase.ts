@@ -1,4 +1,6 @@
-// Placeholder configuration for Firebase / Supabase backend
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 export const firebaseConfig = {
   apiKey: "YOUR_API_KEY_HERE",
@@ -9,19 +11,25 @@ export const firebaseConfig = {
   appId: "YOUR_APP_ID"
 };
 
-// Simulated Database Object
-// Gələcəkdə həqiqi firebase/firestore paketi quraşdırıldıqda bunu importlarla əvəz edəcəksiniz.
-export const db = {
-  collection: (collectionName: string) => ({
-    add: async (data: Record<string, unknown>) => {
-      console.log(`[MOCK DB] Sended to collection "${collectionName}":`, data);
-      
-      // Simulate network delay
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ id: Math.random().toString(36).substring(7), success: true });
-        }, 1000);
-      });
-    }
-  })
+const isConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY_HERE";
+export const app = isConfigured ? initializeApp(firebaseConfig) : null;
+export const db = isConfigured && app ? getFirestore(app) : null;
+export const auth = isConfigured && app ? getAuth(app) : null;
+
+// Təhlükəsiz funksiyalar: Əgər config yoxdursa mock işlədir, varsa həqiqi bazaya yazır.
+export const addToCollection = async (collectionName: string, data: Record<string, unknown>) => {
+  if (isConfigured && db) {
+    // Real Firebase
+    const colRef = collection(db, collectionName);
+    return await addDoc(colRef, data);
+  } else {
+    // Mock
+    console.log(`[MOCK DB] Sended to collection "${collectionName}":`, data);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ id: Math.random().toString(36).substring(7), success: true });
+      }, 1000);
+    });
+  }
 };
+

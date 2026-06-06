@@ -62,8 +62,8 @@ function App() {
                     const btn = form.elements[1] as HTMLButtonElement;
                     btn.disabled = true;
                     btn.innerHTML = '...';
-                    const { db } = await import('./lib/firebase');
-                    await db.collection('subscribers').add({ email: input.value });
+                    const { addToCollection } = await import('./lib/firebase');
+                    await addToCollection('subscribers', { email: input.value });
                     input.value = '';
                     btn.innerHTML = 'Done';
                     setTimeout(() => { btn.disabled = false; btn.innerHTML = '<svg class="lucide lucide-send w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>'; }, 3000);
